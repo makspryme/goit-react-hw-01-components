@@ -1,13 +1,19 @@
-import css from 'componetnts/Statistics/Statistics.module.css';
+import css from './Statistics.module.css';
 import PropTypes from 'prop-types';
 
-export function Statistics({ stats }) {
+function isTitle({ title }) {
+  if (title) {
+    return <h2 className={css.title}>Upload stats</h2>;
+  }
+}
+
+export default function Statistics({ title, stats }) {
   return (
     <section className={css.statistics}>
-      <h2 className={css.title}>Upload stats</h2>
+      {isTitle({ title })}
 
       <ul className={css.stat_list}>
-        {stats.map((file) => {
+        {stats.map(file => {
           return (
             <li className={css.item} key={file.id}>
               <span className={css.label}>{file.label}</span>
@@ -21,5 +27,11 @@ export function Statistics({ stats }) {
 }
 
 Statistics.propTypes = {
-  stats: PropTypes.array.isRequired,
+  stats: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      percentage: PropTypes.number.isRequired,
+    })
+  ),
 };
